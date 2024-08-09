@@ -85,11 +85,11 @@ class NfcManager {
   }
 
   /// (iOS only) 更新消息
-  Future<void> updateMessage(String message) async {
-    if (!Platform.isIOS) return;
+  Future<bool> updateMessage(String message) async {
+    if (!Platform.isIOS) return false;
     return channel.invokeMethod('Nfc#updateMessage', {
       'message': message,
-    });
+    }).then((value) => value!);
   }
 
   // _disposeTag

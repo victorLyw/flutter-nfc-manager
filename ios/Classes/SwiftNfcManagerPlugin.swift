@@ -119,16 +119,17 @@ public class SwiftNfcManagerPlugin: NSObject, FlutterPlugin {
   @available(iOS 13.0, *)
   private func handleNfcUpdateMessage(_ arguments: [String : Any?], result: @escaping FlutterResult) {
     guard let session = session else {
-      result(nil)
+      result(false)
       return
     }
 
     if let customMessage = arguments["message"] as? String {
       session.alertMessage = customMessage
-      result(nil)
+      result(true)
+      return
     }
 
-    result(nil)
+    result(false)
   }
 
   @available(iOS 13.0, *)
