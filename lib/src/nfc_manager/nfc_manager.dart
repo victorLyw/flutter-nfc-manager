@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 import '../channel.dart';
@@ -79,6 +81,14 @@ class NfcManager {
     return channel.invokeMethod('Nfc#stopSession', {
       'alertMessage': alertMessage,
       'errorMessage': errorMessage,
+    });
+  }
+
+  /// (iOS only) 更新消息
+  Future<void> updateMessage(String message) async {
+    if (!Platform.isIOS) return;
+    return channel.invokeMethod('Nfc#updateMessage', {
+      'message': message,
     });
   }
 

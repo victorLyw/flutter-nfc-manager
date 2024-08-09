@@ -40,6 +40,7 @@ public class SwiftNfcManagerPlugin: NSObject, FlutterPlugin {
     case "Nfc#isAvailable": handleNfcIsAvailable(call.arguments, result: result)
     case "Nfc#startSession": handleNfcStartSession(call.arguments as! [String : Any?], result: result)
     case "Nfc#stopSession": handleNfcStopSession(call.arguments as! [String : Any?], result: result)
+    case "Nfc#updateMessage": handleNfcUpdateMessage(call.arguments as! [String : Any?], result: result)
     case "Nfc#disposeTag": handleNfcDisposeTag(call.arguments as! [String : Any?], result: result)
     case "Ndef#read": handleNdefRead(call.arguments as! [String : Any?], result: result)
     case "Ndef#write": handleNdefWrite(call.arguments as! [String : Any?], result: result)
@@ -112,6 +113,21 @@ public class SwiftNfcManagerPlugin: NSObject, FlutterPlugin {
     if let alertMessage = arguments["alertMessage"] as? String { session.alertMessage = alertMessage }
     session.invalidate()
     self.session = nil
+    result(nil)
+  }
+
+  @available(iOS 13.0, *)
+  private func handleNfcUpdateMessage(_ arguments: [String : Any?], result: @escaping FlutterResult) {
+    guard let session = session else {
+      result(nil)
+      return
+    }
+
+    if let customMessage = arguments["message"] as? String {
+      session.alertMessage = customMessage
+      result(nil)
+    }
+
     result(nil)
   }
 
